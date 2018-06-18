@@ -70,6 +70,8 @@ rm -rf build
 rm -rf $SOURCE
 
 # Create branch directory and grab Git repo
+echo "Cloning repo: $SSH_REPO"
+echo "git clone $SSH_REPO $SOURCE/"
 git clone $SSH_REPO $SOURCE/
 cd $SOURCE/
 git checkout $DST_BRANCH || git checkout --orphan $DST_BRANCH
@@ -104,6 +106,7 @@ fi
 
 # Commit and push to GH
 cd $SOURCE/
-git add -A .
+echo "Adding files from $SRC_BRANCH"
+git add -v $SRC_BRANCH
 git commit -m "Rebuild $DST_BRANCH docs on $SRC_BRANCH: ${REV}"
 git push origin HEAD:$DST_BRANCH
