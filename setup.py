@@ -17,7 +17,7 @@ HERE = path.abspath(path.dirname(__file__))
 DOCS = path.join(HERE, 'docs', 'source')
 
 README = path.join(HERE, 'README.rst')
-HISTORY = path.join(DOCS, 'history.rst')
+HISTORY = path.join(DOCS, 'changelog.rst')
 
 with open(README, encoding='utf-8') as readme_file:
     readme = readme_file.read()

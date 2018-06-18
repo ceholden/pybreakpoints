@@ -4,7 +4,7 @@
 
 set -o errexit -o nounset
 
-PACKAGE="plants"
+PACKAGE="pybreakpoints"
 
 DOCS=$(dirname $(readlink -f $0))/../
 APIDOC="${DOCS}/source/${PACKAGE}"
