@@ -1,0 +1,7 @@
+pybreakpoints.recresid\_ module
+===============================
+
+.. automodule:: pybreakpoints.recresid_
+    :members:
+    :undoc-members:
+    :show-inheritance:

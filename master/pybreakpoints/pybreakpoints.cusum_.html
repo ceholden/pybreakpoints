@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pybreakpoints.cusum_ module &mdash; plants 0+untagged.3.g5cd57a5.dirty documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> plants
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">pybreakpoints.cusum_ module</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">plants</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>pybreakpoints.cusum_ module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/pybreakpoints/blob/master/docs/source/pybreakpoints/pybreakpoints.cusum_.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pybreakpoints.cusum_">
+<span id="pybreakpoints-cusum-module"></span><h1>pybreakpoints.cusum_ module<a class="headerlink" href="#module-pybreakpoints.cusum_" title="Permalink to this headline">¶</a></h1>
+<p>Methods for estimating structural breaks in time series regressions</p>
+<p>TODO: extract and move Chow test from “commission test” over to here</p>
+<dl class="function">
+<dt id="pybreakpoints.cusum_.cusum_OLS">
+<code class="descclassname">pybreakpoints.cusum_.</code><code class="descname">cusum_OLS</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>alpha=0.05</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pybreakpoints/cusum_.html#cusum_OLS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybreakpoints.cusum_.cusum_OLS" title="Permalink to this definition">¶</a></dt>
+<dd><p>OLS-CUSUM test for structural breaks</p>
+<p>Tested against R’s <code class="docutils literal notranslate"><span class="pre">strucchange</span></code> package and is faster than
+the equivalent function in the <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code> Python package when
+Numba is installed.</p>
+<p>The OLS-CUSUM test statistic, based on a single OLS regression, is defined
+as:</p>
+<div class="math notranslate nohighlight">
+\[W_n^0(t) = \frac{1}{\hat{\sigma}\sqrt{n}}
+           \sum_{i=1}^{n}{\hat{\mu_i}}\]</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>array like</em>) – 2D (n_obs x n_features) design matrix</li>
+<li><strong>y</strong> (<em>array like</em>) – 1D (n_obs) indepdent variable</li>
+<li><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3.5/library/functions.html#float" title="(in Python v3.5)"><em>float</em></a>) – Test threshold (either 0.01, 0.05, or 0.10) from Ploberger and
+Krämer (1992)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A named tuple include the the test name,change point (index of <code class="docutils literal notranslate"><span class="pre">y</span></code>),
+the test <code class="docutils literal notranslate"><span class="pre">score</span></code> and <code class="docutils literal notranslate"><span class="pre">pvalue</span></code>, and a boolean testing if the
+CUSUM score is significant at the given <code class="docutils literal notranslate"><span class="pre">alpha</span></code></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="pybreakpoints.core.html#pybreakpoints.core.StructuralBreakResult" title="pybreakpoints.core.StructuralBreakResult">StructuralBreakResult</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybreakpoints.cusum_.cusum_recursive">
+<code class="descclassname">pybreakpoints.cusum_.</code><code class="descname">cusum_recursive</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>alpha=0.05</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pybreakpoints/cusum_.html#cusum_recursive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybreakpoints.cusum_.cusum_recursive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rec-CUSUM test for structural breaks</p>
+<p>Tested against R’s <code class="docutils literal notranslate"><span class="pre">strucchange</span></code> package.</p>
+<p>The REC-CUSUM test, based on the recursive residuals, is defined as:</p>
+<div class="math notranslate nohighlight">
+\[W_n(t) = \frac{1}{\tilde{\sigma}\sqrt{n}}
+         \sum_{i=k+1}^{k+(n-k)}{\tilde{\mu_i}}\]</div>
+<p>Critical values for this test statistic are taken from:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">.</span> <span class="n">Zeileis</span><span class="o">.</span> <span class="n">p</span> <span class="n">values</span> <span class="ow">and</span> <span class="n">alternative</span> <span class="n">boundaries</span> <span class="k">for</span> <span class="n">CUSUM</span> <span class="n">tests</span><span class="o">.</span>
+    <span class="n">Working</span> <span class="n">Paper</span> <span class="mi">78</span><span class="p">,</span> <span class="n">SFB</span> <span class="s2">&quot;Adaptive Information Systems and Modelling</span>
+    <span class="ow">in</span> <span class="n">Economics</span> <span class="ow">and</span> <span class="n">Management</span> <span class="n">Science</span><span class="s2">&quot;, December 2000b.</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>array like</em>) – 2D (n_obs x n_features) design matrix</li>
+<li><strong>y</strong> (<em>array like</em>) – 1D (n_obs) indepdent variable</li>
+<li><strong>alpha</strong> (<a class="reference external" href="https://docs.python.org/3.5/library/functions.html#float" title="(in Python v3.5)"><em>float</em></a>) – Test threshold</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A named tuple include the the test name, change point (index of
+<code class="docutils literal notranslate"><span class="pre">y</span></code>), the test <code class="docutils literal notranslate"><span class="pre">score</span></code> and <code class="docutils literal notranslate"><span class="pre">pvalue</span></code>, and a boolean testing
+if the CUSUM score is significant at the given <code class="docutils literal notranslate"><span class="pre">alpha</span></code></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="pybreakpoints.core.html#pybreakpoints.core.StructuralBreakResult" title="pybreakpoints.core.StructuralBreakResult">StructuralBreakResult</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 20182018, Chris Holden.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0+untagged.3.g5cd57a5.dirty',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

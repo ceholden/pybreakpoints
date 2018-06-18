@@ -1,0 +1,7 @@
+pybreakpoints.ewma\_ module
+===========================
+
+.. automodule:: pybreakpoints.ewma_
+    :members:
+    :undoc-members:
+    :show-inheritance:

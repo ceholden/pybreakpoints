@@ -1,0 +1,400 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pybreakpoints.hmm &mdash; plants 0+untagged.3.g5cd57a5.dirty documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> plants
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">plants</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>pybreakpoints.hmm</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for pybreakpoints.hmm</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Hidden Markov Model (HMM) algorithms, using Numba (hope you have it)</span>
+
+<span class="sd">Note that all these functions are calculated in log space for numerical</span>
+<span class="sd">stability (avoiding underflow), and each function assumes probabilities</span>
+<span class="sd">have been passed as log probabilities.</span>
+
+<span class="sd">References</span>
+<span class="sd">----------</span>
+<span class="sd">https://en.wikipedia.org/wiki/Forward%E2%80%93backward_algorithm</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">.compat</span> <span class="k">import</span> <span class="n">jit</span>
+
+
+<div class="viewcode-block" id="logsumexp"><a class="viewcode-back" href="../../pybreakpoints/pybreakpoints.hmm.html#pybreakpoints.hmm.logsumexp">[docs]</a><span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nogil</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">logsumexp</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return the log of the sum of exponentials of `a`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : np.ndarray, 1D</span>
+<span class="sd">        1 dimensional array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        log(sum(exp(a)))</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    scipy.special.logsumexp</span>
+<span class="sd">        A more feature complete version (without Numba)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">a_max</span><span class="p">)))</span>
+    <span class="n">out</span> <span class="o">+=</span> <span class="n">a_max</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="forward"><a class="viewcode-back" href="../../pybreakpoints/pybreakpoints.hmm.html#pybreakpoints.hmm.forward">[docs]</a><span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nogil</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">obs_proba</span><span class="p">,</span> <span class="n">start_proba</span><span class="p">,</span> <span class="n">trans_proba</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate forward probabilities</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obs_proba : np.ndarray, (n_obs, n_states)</span>
+<span class="sd">        Probability of observing each sample for each state</span>
+<span class="sd">    start_proba : np.ndarray (n_states)</span>
+<span class="sd">        Starting probabilities for each state</span>
+<span class="sd">    trans_proba : np.ndarray (n_states, n_states)</span>
+<span class="sd">        Transition probabilities among classes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray : forward_lattice (n_obs, n_states)</span>
+<span class="sd">        Lattice of forward log probabilities</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_obs</span><span class="p">,</span> <span class="n">n_states</span> <span class="o">=</span> <span class="n">obs_proba</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">fwd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_obs</span><span class="p">,</span> <span class="n">n_states</span><span class="p">))</span>
+
+    <span class="n">fwd</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">start_proba</span> <span class="o">+</span> <span class="n">obs_proba</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_obs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_states</span><span class="p">):</span>
+            <span class="n">previous</span> <span class="o">=</span> <span class="n">fwd</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">trans_proba</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span>
+            <span class="n">fwd</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">logsumexp</span><span class="p">(</span><span class="n">previous</span><span class="p">)</span> <span class="o">+</span> <span class="n">obs_proba</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">fwd</span></div>
+
+
+<div class="viewcode-block" id="backward"><a class="viewcode-back" href="../../pybreakpoints/pybreakpoints.hmm.html#pybreakpoints.hmm.backward">[docs]</a><span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nogil</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">backward</span><span class="p">(</span><span class="n">obs_proba</span><span class="p">,</span> <span class="n">start_proba</span><span class="p">,</span> <span class="n">trans_proba</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate backward probabilities</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obs_proba : np.ndarray, (n_obs, n_states)</span>
+<span class="sd">        Probability of observing each sample for each state</span>
+<span class="sd">    start_proba : np.ndarray (n_states)</span>
+<span class="sd">        Starting probabilities for each state</span>
+<span class="sd">    trans_proba : np.ndarray (n_states, n_states)</span>
+<span class="sd">        Transition probabilities among classes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray : backward_lattice (n_obs, n_states)</span>
+<span class="sd">        Lattice of backward log probabilities</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_obs</span><span class="p">,</span> <span class="n">n_states</span> <span class="o">=</span> <span class="n">obs_proba</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">bwd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_obs</span><span class="p">,</span> <span class="n">n_states</span><span class="p">))</span>
+
+    <span class="n">bwd</span><span class="p">[</span><span class="n">n_obs</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_obs</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_states</span><span class="p">):</span>
+            <span class="n">previous</span> <span class="o">=</span> <span class="n">trans_proba</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">obs_proba</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="n">bwd</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">bwd</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">logsumexp</span><span class="p">(</span><span class="n">previous</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">bwd</span></div>
+
+
+<div class="viewcode-block" id="forward_backward"><a class="viewcode-back" href="../../pybreakpoints/pybreakpoints.hmm.html#pybreakpoints.hmm.forward_backward">[docs]</a><span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nogil</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">forward_backward</span><span class="p">(</span><span class="n">obs_proba</span><span class="p">,</span> <span class="n">start_proba</span><span class="p">,</span> <span class="n">trans_proba</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate smoothed (forward-backward) probabilities</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obs_proba : np.ndarray, (n_obs, n_states)</span>
+<span class="sd">        Probability of observing each sample for each state</span>
+<span class="sd">    start_proba : np.ndarray (n_states)</span>
+<span class="sd">        Starting probabilities for each state</span>
+<span class="sd">    trans_proba : np.ndarray (n_states, n_states)</span>
+<span class="sd">        Transition probabilities among classes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray : smoothed (n_obs, n_states)</span>
+<span class="sd">        Lattice of smoothed log probabilities</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_obs</span><span class="p">,</span> <span class="n">n_states</span> <span class="o">=</span> <span class="n">obs_proba</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="n">fwd</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">obs_proba</span><span class="p">,</span> <span class="n">start_proba</span><span class="p">,</span> <span class="n">trans_proba</span><span class="p">)</span>
+    <span class="n">bwd</span> <span class="o">=</span> <span class="n">backward</span><span class="p">(</span><span class="n">obs_proba</span><span class="p">,</span> <span class="n">start_proba</span><span class="p">,</span> <span class="n">trans_proba</span><span class="p">)</span>
+
+    <span class="n">fwd</span> <span class="o">+=</span> <span class="n">bwd</span>  <span class="c1"># combine</span>
+    <span class="n">a_lse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n_obs</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_obs</span><span class="p">):</span>
+        <span class="n">a_lse</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">logsumexp</span><span class="p">(</span><span class="n">fwd</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span>
+
+    <span class="n">fwd</span> <span class="o">-=</span> <span class="n">a_lse</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">fwd</span></div>
+
+
+<div class="viewcode-block" id="smoothed_probabilities"><a class="viewcode-back" href="../../pybreakpoints/pybreakpoints.hmm.html#pybreakpoints.hmm.smoothed_probabilities">[docs]</a><span class="k">def</span> <span class="nf">smoothed_probabilities</span><span class="p">(</span><span class="n">obs_proba</span><span class="p">,</span>
+                           <span class="n">start_proba</span><span class="o">=</span><span class="s1">&#39;naive&#39;</span><span class="p">,</span>
+                           <span class="n">trans_proba</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+                           <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                           <span class="n">log_proba</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Smooth a time series of observation probabilities with a HMM</span>
+
+<span class="sd">    Probabilities are assumed to be in normal space [0-1] (not log).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obs_proba : np.ndarray, (n_obs, n_states)</span>
+<span class="sd">        Probability of observing each sample for each state</span>
+<span class="sd">    start_proba : np.ndarray (n_states) or {&#39;naive&#39;}</span>
+<span class="sd">        Starting probabilities for each state. The default strategy,</span>
+<span class="sd">        &#39;naive&#39;, sets all classes as equally likely.</span>
+<span class="sd">    trans_proba : np.ndarray (n_states, n_states), or float</span>
+<span class="sd">        Transition probabilities among classes. If float is passed,</span>
+<span class="sd">        sets all off-diagonals (the class transitions) to this number.</span>
+<span class="sd">    bounds : tuple, or None</span>
+<span class="sd">        Pass (lower, upper) bounds of the smoothed probabilities. If not</span>
+<span class="sd">        `None`, will :py:func:`np.clip` the probabilities using these bounds.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    np.ndarray, (n_obs, n_states)</span>
+<span class="sd">        Smoothed log probabilities</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">obs_proba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">obs_proba</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">log_proba</span><span class="p">:</span>
+        <span class="n">obs_proba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">obs_proba</span><span class="p">)</span>
+
+    <span class="n">n_obs</span><span class="p">,</span> <span class="n">n_states</span> <span class="o">=</span> <span class="n">obs_proba</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="k">if</span> <span class="n">start_proba</span> <span class="o">==</span> <span class="s1">&#39;naive&#39;</span><span class="p">:</span>
+        <span class="n">start_proba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">n_states</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">start_proba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">start_proba</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">log_proba</span><span class="p">:</span>
+            <span class="n">start_proba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">start_proba</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">start_proba</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trans_proba</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="n">trans_proba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">n_states</span><span class="p">,</span> <span class="n">n_states</span><span class="p">),</span> <span class="n">trans_proba</span><span class="p">)</span>
+        <span class="n">trans_proba</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">trans_proba</span> <span class="o">/=</span> <span class="n">trans_proba</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">trans_proba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">trans_proba</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">trans_proba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">trans_proba</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">log_proba</span><span class="p">:</span>
+            <span class="n">trans_proba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">trans_proba</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">trans_proba</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">n_states</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">bounds</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">log_proba</span><span class="p">:</span>
+            <span class="n">bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+        <span class="n">obs_proba_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">obs_proba</span><span class="p">,</span> <span class="o">*</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">obs_proba_</span> <span class="o">=</span> <span class="n">obs_proba</span>
+
+    <span class="n">smoothed</span> <span class="o">=</span> <span class="n">forward_backward</span><span class="p">(</span><span class="n">obs_proba_</span><span class="p">,</span> <span class="n">start_proba</span><span class="p">,</span> <span class="n">trans_proba</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">smoothed</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 20182018, Chris Holden.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0+untagged.3.g5cd57a5.dirty',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+pybreakpoints.core module
+=========================
+
+.. automodule:: pybreakpoints.core
+    :members:
+    :undoc-members:
+    :show-inheritance:

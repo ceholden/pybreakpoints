@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pybreakpoints.hmm module &mdash; plants 0+untagged.3.g5cd57a5.dirty documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> plants
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">pybreakpoints.hmm module</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">plants</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>pybreakpoints.hmm module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/pybreakpoints/blob/master/docs/source/pybreakpoints/pybreakpoints.hmm.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pybreakpoints.hmm">
+<span id="pybreakpoints-hmm-module"></span><h1>pybreakpoints.hmm module<a class="headerlink" href="#module-pybreakpoints.hmm" title="Permalink to this headline">¶</a></h1>
+<p>Hidden Markov Model (HMM) algorithms, using Numba (hope you have it)</p>
+<p>Note that all these functions are calculated in log space for numerical
+stability (avoiding underflow), and each function assumes probabilities
+have been passed as log probabilities.</p>
+<p class="rubric">References</p>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Forward%E2%80%93backward_algorithm">https://en.wikipedia.org/wiki/Forward%E2%80%93backward_algorithm</a></p>
+<dl class="attribute">
+<dt id="pybreakpoints.hmm.backward">
+<code class="descclassname">pybreakpoints.hmm.</code><code class="descname">backward</code><a class="reference internal" href="../_modules/pybreakpoints/hmm.html#backward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybreakpoints.hmm.backward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate backward probabilities</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>obs_proba</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_obs</em><em>, </em><em>n_states</em><em>)</em>) – Probability of observing each sample for each state</li>
+<li><strong>start_proba</strong> (<em>np.ndarray</em><em> (</em><em>n_states</em><em>)</em>) – Starting probabilities for each state</li>
+<li><strong>trans_proba</strong> (<em>np.ndarray</em><em> (</em><em>n_states</em><em>, </em><em>n_states</em><em>)</em>) – Transition probabilities among classes</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>np.ndarray</strong> – Lattice of backward log probabilities</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">backward_lattice (n_obs, n_states)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybreakpoints.hmm.forward">
+<code class="descclassname">pybreakpoints.hmm.</code><code class="descname">forward</code><a class="reference internal" href="../_modules/pybreakpoints/hmm.html#forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybreakpoints.hmm.forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate forward probabilities</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>obs_proba</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_obs</em><em>, </em><em>n_states</em><em>)</em>) – Probability of observing each sample for each state</li>
+<li><strong>start_proba</strong> (<em>np.ndarray</em><em> (</em><em>n_states</em><em>)</em>) – Starting probabilities for each state</li>
+<li><strong>trans_proba</strong> (<em>np.ndarray</em><em> (</em><em>n_states</em><em>, </em><em>n_states</em><em>)</em>) – Transition probabilities among classes</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>np.ndarray</strong> – Lattice of forward log probabilities</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">forward_lattice (n_obs, n_states)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybreakpoints.hmm.forward_backward">
+<code class="descclassname">pybreakpoints.hmm.</code><code class="descname">forward_backward</code><a class="reference internal" href="../_modules/pybreakpoints/hmm.html#forward_backward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybreakpoints.hmm.forward_backward" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate smoothed (forward-backward) probabilities</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>obs_proba</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_obs</em><em>, </em><em>n_states</em><em>)</em>) – Probability of observing each sample for each state</li>
+<li><strong>start_proba</strong> (<em>np.ndarray</em><em> (</em><em>n_states</em><em>)</em>) – Starting probabilities for each state</li>
+<li><strong>trans_proba</strong> (<em>np.ndarray</em><em> (</em><em>n_states</em><em>, </em><em>n_states</em><em>)</em>) – Transition probabilities among classes</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>np.ndarray</strong> – Lattice of smoothed log probabilities</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">smoothed (n_obs, n_states)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pybreakpoints.hmm.logsumexp">
+<code class="descclassname">pybreakpoints.hmm.</code><code class="descname">logsumexp</code><a class="reference internal" href="../_modules/pybreakpoints/hmm.html#logsumexp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybreakpoints.hmm.logsumexp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the log of the sum of exponentials of <cite>a</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>a</strong> (<em>np.ndarray</em><em>, </em><em>1D</em>) – 1 dimensional array</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">log(sum(exp(a)))</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3.5/library/functions.html#float" title="(in Python v3.5)">float</a></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.special.logsumexp</span></code></dt>
+<dd>A more feature complete version (without Numba)</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="pybreakpoints.hmm.smoothed_probabilities">
+<code class="descclassname">pybreakpoints.hmm.</code><code class="descname">smoothed_probabilities</code><span class="sig-paren">(</span><em>obs_proba</em>, <em>start_proba='naive'</em>, <em>trans_proba=0.05</em>, <em>bounds=None</em>, <em>log_proba=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pybreakpoints/hmm.html#smoothed_probabilities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybreakpoints.hmm.smoothed_probabilities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Smooth a time series of observation probabilities with a HMM</p>
+<p>Probabilities are assumed to be in normal space [0-1] (not log).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>obs_proba</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>n_obs</em><em>, </em><em>n_states</em><em>)</em>) – Probability of observing each sample for each state</li>
+<li><strong>start_proba</strong> (<em>np.ndarray</em><em> (</em><em>n_states</em><em>) or </em><em>{'naive'}</em>) – Starting probabilities for each state. The default strategy,
+‘naive’, sets all classes as equally likely.</li>
+<li><strong>trans_proba</strong> (<em>np.ndarray</em><em> (</em><em>n_states</em><em>, </em><em>n_states</em><em>)</em><em>, or </em><a class="reference external" href="https://docs.python.org/3.5/library/functions.html#float" title="(in Python v3.5)"><em>float</em></a>) – Transition probabilities among classes. If float is passed,
+sets all off-diagonals (the class transitions) to this number.</li>
+<li><strong>bounds</strong> (<a class="reference external" href="https://docs.python.org/3.5/library/stdtypes.html#tuple" title="(in Python v3.5)"><em>tuple</em></a><em>, or </em><a class="reference external" href="https://docs.python.org/3.5/library/constants.html#None" title="(in Python v3.5)"><em>None</em></a>) – Pass (lower, upper) bounds of the smoothed probabilities. If not
+<cite>None</cite>, will <code class="xref py py-func docutils literal notranslate"><span class="pre">np.clip()</span></code> the probabilities using these bounds.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Smoothed log probabilities</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">np.ndarray, (n_obs, n_states)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 20182018, Chris Holden.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0+untagged.3.g5cd57a5.dirty',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

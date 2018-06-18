@@ -1,0 +1,7 @@
+pybreakpoints.compat module
+===========================
+
+.. automodule:: pybreakpoints.compat
+    :members:
+    :undoc-members:
+    :show-inheritance:

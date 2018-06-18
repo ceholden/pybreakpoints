@@ -1,0 +1,24 @@
+pybreakpoints package
+=====================
+
+Submodules
+----------
+
+.. toctree::
+
+   pybreakpoints.baiperron
+   pybreakpoints.compat
+   pybreakpoints.core
+   pybreakpoints.cusum_
+   pybreakpoints.ewma_
+   pybreakpoints.hmm
+   pybreakpoints.recresid_
+   pybreakpoints.stats
+
+Module contents
+---------------
+
+.. automodule:: pybreakpoints
+    :members:
+    :undoc-members:
+    :show-inheritance:

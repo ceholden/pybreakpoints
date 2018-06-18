@@ -1,0 +1,7 @@
+pybreakpoints.stats module
+==========================
+
+.. automodule:: pybreakpoints.stats
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>pybreakpoints.recresid_ module &mdash; plants 0+untagged.3.g5cd57a5.dirty documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> plants
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">pybreakpoints.recresid_ module</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">plants</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>pybreakpoints.recresid_ module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/pybreakpoints/blob/master/docs/source/pybreakpoints/pybreakpoints.recresid_.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pybreakpoints.recresid_">
+<span id="pybreakpoints-recresid-module"></span><h1>pybreakpoints.recresid_ module<a class="headerlink" href="#module-pybreakpoints.recresid_" title="Permalink to this headline">¶</a></h1>
+<p>Recursive residuals computation</p>
+<p>Citations:</p>
+<ul class="simple">
+<li>Brown, RL, J Durbin, and JM Evans. 1975. Techniques for Testing the
+Consistency of Regression Relationships over Time. Journal of the Royal
+Statistical Society. Series B (Methodological) 37 (2): 149-192.</li>
+<li>Judge George G., William E. Griffiths, R. Carter Hill, Helmut Lütkepohl,
+and Tsoung-Chao Lee. 1985. The theory and practice of econometrics.
+New York: Wiley. ISBN: 978-0-471-89530-5</li>
+</ul>
+<dl class="function">
+<dt id="pybreakpoints.recresid_.recresid">
+<code class="descclassname">pybreakpoints.recresid_.</code><code class="descname">recresid</code><span class="sig-paren">(</span><em>X</em>, <em>y</em>, <em>span=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pybreakpoints/recresid_.html#recresid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pybreakpoints.recresid_.recresid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return standardized recursive residuals for y ~ X</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>X</strong> (<em>array like</em>) – 2D (n_obs x n_features) design matrix</li>
+<li><strong>y</strong> (<em>array like</em>) – 1D independent variable</li>
+<li><strong>span</strong> (<a class="reference external" href="https://docs.python.org/3.5/library/functions.html#int" title="(in Python v3.5)"><em>int</em></a><em>, </em><em>optional</em>) – Minimum number of observations for initial regression. If <code class="docutils literal notranslate"><span class="pre">span</span></code>
+is None, use the number of features in <code class="docutils literal notranslate"><span class="pre">X</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">np.ndarray, pd.Series, or xr.DataArray containing recursive residuals
+standardized by prediction error variance</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">array like</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>For a matrix <span class="math notranslate nohighlight">\(X_t\)</span> of <span class="math notranslate nohighlight">\(T\)</span> total observations of <span class="math notranslate nohighlight">\(n\)</span>
+variables, the <span class="math notranslate nohighlight">\(t\)</span> th recursive residual is the forecast prediction
+error for <span class="math notranslate nohighlight">\(y_t\)</span> using a regression fit on the first <span class="math notranslate nohighlight">\(t - 1\)</span>
+observations. Recursive residuals are scaled and standardized so they are
+N(0, 1) distributed.</p>
+<p>Using notation from Brown, Durbin, and Evans (1975) and Judge, et al
+(1985):</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}w_r =
+    \frac{y_r - \boldsymbol{x}_r^{\prime}\boldsymbol{b}_{r-1}}
+          {\sqrt{(1 + \boldsymbol{x}_r^{\prime}
+           S_{r-1}\boldsymbol{x}_r)}}
+    =
+    \frac
+        {y_r - \boldsymbol{x}_r^{\prime}\boldsymbol{b}_r}
+        {\sqrt{1 - \boldsymbol{x}_r^{\prime}S_r\boldsymbol{x}_r}}\\r = k + 1, \ldots, T,\end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(S_{r}\)</span> is the residual sum of squares after
+fitting the model on <span class="math notranslate nohighlight">\(r\)</span> observations.</p>
+<p>A quick way of calculating <span class="math notranslate nohighlight">\(\boldsymbol{b}_r\)</span> and
+<span class="math notranslate nohighlight">\(S_r\)</span> is using an update formula (Equations 4 and 5 in
+Brown, Durbin, and Evans; Equation 5.5.14 and 5.5.15 in Judge et al):</p>
+<div class="math notranslate nohighlight">
+\[\boldsymbol{b}_r
+    =
+    b_{r-1} +
+    \frac
+        {S_{r-1}\boldsymbol{x}_j
+            (y_r - \boldsymbol{x}_r^{\prime}\boldsymbol{b}_{r-1})}
+        {1 + \boldsymbol{x}_r^{\prime}S_{r-1}x_r}\]</div>
+<div class="math notranslate nohighlight">
+\[S_r =
+    S_{j-1} -
+    \frac{S_{j-1}\boldsymbol{x}_r\boldsymbol{x}_r^{\prime}S_{j-1}}
+          {1 + \boldsymbol{x}_r^{\prime}S_{j-1}\boldsymbol{x}_r}\]</div>
+<p>See the recursive residuals implementation that this follows,
+<cite>recursive_olsresiduals</cite>, within the <cite>statsmodels.stats.diagnostic</cite> module.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 20182018, Chris Holden.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0+untagged.3.g5cd57a5.dirty',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

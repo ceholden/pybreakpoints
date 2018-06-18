@@ -1,0 +1,7 @@
+pybreakpoints.hmm module
+========================
+
+.. automodule:: pybreakpoints.hmm
+    :members:
+    :undoc-members:
+    :show-inheritance:

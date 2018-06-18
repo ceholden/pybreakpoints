@@ -1,0 +1,7 @@
+pybreakpoints.baiperron module
+==============================
+
+.. automodule:: pybreakpoints.baiperron
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,0 +1,7 @@
+pybreakpoints.cusum\_ module
+============================
+
+.. automodule:: pybreakpoints.cusum_
+    :members:
+    :undoc-members:
+    :show-inheritance:
