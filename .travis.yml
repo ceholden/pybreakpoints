@@ -10,7 +10,7 @@ branches:
 
 env:
     global:
-        - ENCRYPTION_LABEL: "TODO"
+        - ENCRYPTION_LABEL: "4fa7732debc3"
         - COMMIT_AUTHOR_EMAIL: "ceholden@gmail.com"
         - COMMIT_AUTHOR_NAME: "TRAVIS-CI BOT"
         - DOCS_PYTHON_VERSION: "3.6"
