@@ -1,0 +1,61 @@
+language: python
+sudo: false
+python:
+    - "3.6"
+branches:
+    only:
+        - master
+        - dev
+        - /^v[0-9].*$/
+
+env:
+    global:
+        - ENCRYPTION_LABEL: "TODO"
+        - COMMIT_AUTHOR_EMAIL: "ceholden@gmail.com"
+        - COMMIT_AUTHOR_NAME: "TRAVIS-CI BOT"
+        - DOCS_PYTHON_VERSION: "3.6"
+matrix:
+    fast_finish: true
+    include:
+    - python: 3.6
+      env: CONDA_ENV=py36
+
+before_install:
+    - wget -q https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+    - bash miniconda.sh -b -p $HOME/miniconda
+    - export PATH=$HOME/miniconda/bin:$PATH
+    - conda config --set always_yes yes --set changeps1 no --set show_channel_urls yes
+    - conda config --add channels conda-forge
+    - conda update -q conda
+    - conda info -a
+    - conda install conda-env  # no longer installed by default?
+
+install:
+    # Create conda matching requirements
+    - conda env create -n test -f ci/requirements-${CONDA_ENV}.yml
+    - source activate test
+    # Install package
+    - "pip install -e ."
+    # Install test requirements
+    - pip install -r tests/requirements.txt
+
+script:
+    # Run twice since we can't see coverage with Numba
+    - py.test -ra tests/
+    - NUMBA_DISABLE_JIT=1 py.test -ra --cov=pybreakpoints/ --cov-report=html --cov-report=term tests/
+    - coverage-badge -f -o badge.svg
+
+after_success:
+    # Docs
+    - source activate test
+    - pip install -r docs/requirements.txt
+    - if [[ "$TRAVIS_PYTHON_VERSION" == "$DOCS_PYTHON_VERSION" ]]; then
+          bash docs/scripts/deploy-to-gh-pages.sh;
+      fi
+
+before_cache:
+    # Deactivate conda so we use system 'curl'
+    - source deactivate
+
+notifications:
+    email: false

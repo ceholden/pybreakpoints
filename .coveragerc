@@ -1,0 +1,7 @@
+[run]
+omit =
+    pybreakpoints/_version.py
+
+[report]
+exclude_lines =
+    raise NotImplementedError

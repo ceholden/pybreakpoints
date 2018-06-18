@@ -1,0 +1,13 @@
+name: pybreakpoints
+channels:
+    - conda-forge
+    - conda-forge/label/dev
+dependencies:
+    - python
+    - six
+    - pathlib  # [py2k]
+    - numpy
+    - pandas
+    - scipy
+    - xarray
+    - numba

@@ -1,0 +1,5 @@
+pytest
+pytest-cov
+pytest-lazy-fixture
+coverage
+coverage-badge
