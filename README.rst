@@ -36,9 +36,9 @@ Things need doing.
 .. |license| image:: https://img.shields.io/badge/license-BSD%203--Clause-blue.svg
    :target: https://raw.githubusercontent.com/ceholden/pybreakpoints/master/LICENSE
 
-.. |master_travis| image:: https://img.shields.io/travis/ceholden/pybreakpoints/master.svg
+.. |master_travis| image:: https://api.travis-ci.com/ceholden/pybreakpoints.svg?token=fpEUL8V3obFi2DonCumW&branch=master
    :target: https://travis-ci.com/ceholden/pybreakpoints
 .. |master_coverage| image:: https://ceholden.github.io/pybreakpoints/master/coverage_badge.svg
     :target: https://ceholden.github.io/pybreakpoints/master/coverage
-.. |master_docs_ghpage| image:: https://img.shields.io/travis/ceholden/pybreakpoints/master.svg
+.. |master_docs_ghpage| image:: https://api.travis-ci.com/ceholden/pybreakpoints.svg?token=fpEUL8V3obFi2DonCumW&branch=master
    :target: https://ceholden.github.io/pybreakpoints/master/
