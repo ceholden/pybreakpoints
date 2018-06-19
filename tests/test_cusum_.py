@@ -1,4 +1,4 @@
-""" Tests for :py:mod:`plants_change.stats.cusum_`
+""" Tests for :py:mod:`pybreakpoints.cusum_`
 """
 import numpy as np
 import pandas as pd

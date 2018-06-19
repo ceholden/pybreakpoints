@@ -1,4 +1,4 @@
-""" Tests for :py:mod:`plants_change.stats.ewma_`
+""" Tests for :py:mod:`pybreakpoints.ewma_`
 """
 import numpy as np
 import pandas as pd

@@ -1,4 +1,4 @@
-""" Tests for :py:mod:`plants_change.stats.baiperron`
+""" Tests for :py:mod:`pybreakpoints.baiperron`
 """
 import numpy as np
 import pandas as pd

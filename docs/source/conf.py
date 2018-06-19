@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# plants documentation build configuration file, created by
+# pybreakpoints documentation build configuration file, created by
 # sphinx-quickstart on Wed Jul 19 11:01:10 2017.
 #
 # This file is execfile()d with the current directory set to its
@@ -32,7 +32,7 @@ PACKAGE = DOCS.parent.joinpath(PACKAGE_NAME)
 sys.path.insert(0, str(PACKAGE.parent.absolute()))
 
 # General information about the project.
-project = u'plants'
+project = u'pybreakpoints'
 copyright = u'2018{0}, Chris Holden'.format(
     _YEAR,
     ' - {0}'.format(_YEAR) if _YEAR != 2017

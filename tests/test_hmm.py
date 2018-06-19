@@ -1,4 +1,4 @@
-""" Tests for :py:mod:`plants_change.stats.hmm`
+""" Tests for :py:mod:`pybreakpoints.hmm`
 """
 import numpy as np
 import pytest
