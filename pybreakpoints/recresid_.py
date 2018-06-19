@@ -83,7 +83,7 @@ def recresid(X, y, span=None):
     variables, the :math:`t` th recursive residual is the forecast prediction
     error for :math:`y_t` using a regression fit on the first :math:`t - 1`
     observations. Recursive residuals are scaled and standardized so they are
-    N(0, 1) distributed.
+    :math:`N(0, 1)` distributed.
 
     Using notation from Brown, Durbin, and Evans (1975) and Judge, et al
     (1985):
@@ -122,9 +122,9 @@ def recresid(X, y, span=None):
             \\frac{S_{j-1}\\boldsymbol{x}_r\\boldsymbol{x}_r^{\prime}S_{j-1}}
                   {1 + \\boldsymbol{x}_r^{\prime}S_{j-1}\\boldsymbol{x}_r}
 
-    See the recursive residuals implementation that this follows,
-    `recursive_olsresiduals`, within the `statsmodels.stats.diagnostic` module.
-
+    See Also
+    --------
+    statsmodels.stats.diagnostic.recursive_olsresiduals
     """
     if not span:
         span = X.shape[1]

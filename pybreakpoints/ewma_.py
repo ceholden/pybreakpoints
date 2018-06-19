@@ -25,7 +25,9 @@ _d2_n = np.array([np.nan, np.nan, 1.128, 1.693, 2.059, 2.326, 2.534, 2.704,
 def _rolling_window(a, window):
     """ Return a rolling window using NumPy strides
 
-    Credit: http://www.rigtorp.se/2011/01/01/rolling-statistics-numpy.html
+    Reference
+    ---------
+    http://www.rigtorp.se/2011/01/01/rolling-statistics-numpy.html
     """
     shape = a.shape[:-1] + (a.shape[-1] - window + 1, window)
     strides = a.strides + (a.strides[-1],)
@@ -39,8 +41,10 @@ def _sd_moving_range(y, k=2):
 
     Parameters
     ----------
-        y (np.ndarray): Data
-        k (int): Number of observations included in moving range
+    y : np.ndarray
+        Data
+    k : int
+        Number of observations included in moving range
 
     Returns
     -------
@@ -78,15 +82,22 @@ def _sd_sample(x):
 def _ewma_boundary(x, stddev, crit=3.0, lambda_=0.2):
     """ Calculate control chart boundaries for a given process
 
-    Args:
-        x (np.ndarray): Observations
-        stddev (float): Standard deviation of the observations
-        crit (float): Critical threshold for boundary, given as a scalar
-            multiplier of the standard deviation
-        lambda_ (float): "Memory" parameter, bound [0, 1]
+    Parameters
+    ----------
+    x : np.ndarray
+        Observations
+    stddev : float
+        Standard deviation of the observations
+    crit : float
+        Critical threshold for boundary, given as a scalar multiplier
+        of the standard deviation
+    lambda_ : float
+        "Memory" parameter, bound [0, 1]
 
-    Returns:
-        tuple(np.ndarray, np.ndarray): Upper and lower boundaries of process
+    Returns
+    -------
+    tuple[np.ndarray, np.ndarray]
+        Upper and lower boundaries of process
     """
     n = x.shape[0]
     x = np.arange(1, n + 1)
@@ -148,27 +159,32 @@ def _ewma(y, lambda_=0.2, crit=3.0, center=True, std_type='SD'):
 def ewma(y, lambda_=0.2, crit=3.0, center=True, std_type='SD'):
     """ Exponentially Weighted Moving Average test
 
-    Args:
-        y (array like): Time series to test. Should be sorted chronologically
-        lambda_ (float): "Memory" parameter, bound [0, 1]
-        crit (float): Critical threshold for boundary, given as a scalar
-            multiplier of the standard deviation
-        center (bool): Center time series before calculating EWMA
-        std_type (str): Method for calculating process standard deviation.
-            Calculated using:
+    Parameters
+    ----------
+    y : array like
+        Time series to test. Should be sorted chronologically
+    lambda_ : float
+        "Memory" parameter, bound [0, 1]
+    crit : float
+        Critical threshold for boundary, given as a scalar multiplier of the
+        standard deviation
+    center : bool
+        Center time series before calculating EWMA
+    std_type : {'MR', 'SD', 'MAD'}
+        Method for calculating process standard deviation. Calculated using:
 
-            * ``MR`` for an estimate based on the "moving range" of
-              the scaled mean
-            * ``SD`` for the sample standard deviation
-            * ``MAD`` for the Median Absolute Deviation estimate of
-              standard deviation
+        * ``MR`` for an estimate based on the "moving range" of
+          the scaled mean
+        * ``SD`` for the sample standard deviation
+        * ``MAD`` for the Median Absolute Deviation estimate of
+          standard deviation
 
-    Returns:
-        StructuralBreakResult: A named tuple include the the test name,
-        change point (index of ``y``), the test ``score``,
-        and a boolean testing if the EWMA score is significant at the
-        given ``crit``
-
+    Returns
+    -------
+    StructuralBreakResult
+        A named tuple include the the test name, change point (index of ``y``),
+        the test ``score``, and a boolean testing if the EWMA score is
+        significant at the given ``crit``
     """
     _y = y.values.ravel() if isinstance(y, PANDAS_LIKE) else y.ravel()
 

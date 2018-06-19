@@ -98,7 +98,6 @@ def breakpoint(X, y, h=0.15, breaks=None):
             RSS_index[idx_ - h + 1, m] = pot_index[bp]
 
     # Find breaks
-    # bp = extract_breaks(RSS_tri, RSS_table, RSS_index, breaks, h)
     bp_all = {
         breaks_: _extract_breaks(RSS_tri, RSS_table, RSS_index, breaks_, h)
         for breaks_ in range(breaks, 0, -1)
