@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pybreakpoints.ewma_ module &mdash; plants 0+untagged.8.gade5ec6 documentation</title>
+  <title>pybreakpoints.ewma_ module &mdash; plants 0+untagged.9.ge2b63d2 documentation</title>
   
 
   
@@ -163,11 +163,10 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>y</strong> (<em>array like</em>) – Time series to test. Should be sorted chronologically</li>
 <li><strong>lambda</strong> (<a class="reference external" href="https://docs.python.org/3.5/library/functions.html#float" title="(in Python v3.5)"><em>float</em></a>) – “Memory” parameter, bound [0, 1]</li>
-<li><strong>crit</strong> (<a class="reference external" href="https://docs.python.org/3.5/library/functions.html#float" title="(in Python v3.5)"><em>float</em></a>) – Critical threshold for boundary, given as a scalar
-multiplier of the standard deviation</li>
+<li><strong>crit</strong> (<a class="reference external" href="https://docs.python.org/3.5/library/functions.html#float" title="(in Python v3.5)"><em>float</em></a>) – Critical threshold for boundary, given as a scalar multiplier of the
+standard deviation</li>
 <li><strong>center</strong> (<a class="reference external" href="https://docs.python.org/3.5/library/functions.html#bool" title="(in Python v3.5)"><em>bool</em></a>) – Center time series before calculating EWMA</li>
-<li><strong>std_type</strong> (<a class="reference external" href="https://docs.python.org/3.5/library/stdtypes.html#str" title="(in Python v3.5)"><em>str</em></a>) – <p>Method for calculating process standard deviation.
-Calculated using:</p>
+<li><strong>std_type</strong> (<em>{'MR'</em><em>, </em><em>'SD'</em><em>, </em><em>'MAD'}</em>) – <p>Method for calculating process standard deviation. Calculated using:</p>
 <ul>
 <li><code class="docutils literal notranslate"><span class="pre">MR</span></code> for an estimate based on the “moving range” of
 the scaled mean</li>
@@ -179,10 +178,9 @@ standard deviation</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A named tuple include the the test name,
-change point (index of <code class="docutils literal notranslate"><span class="pre">y</span></code>), the test <code class="docutils literal notranslate"><span class="pre">score</span></code>,
-and a boolean testing if the EWMA score is significant at the
-given <code class="docutils literal notranslate"><span class="pre">crit</span></code></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A named tuple include the the test name, change point (index of <code class="docutils literal notranslate"><span class="pre">y</span></code>),
+the test <code class="docutils literal notranslate"><span class="pre">score</span></code>, and a boolean testing if the EWMA score is
+significant at the given <code class="docutils literal notranslate"><span class="pre">crit</span></code></p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="pybreakpoints.core.html#pybreakpoints.core.StructuralBreakResult" title="pybreakpoints.core.StructuralBreakResult">StructuralBreakResult</a></p>
@@ -227,7 +225,7 @@ given <code class="docutils literal notranslate"><span class="pre">crit</span></
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0+untagged.8.gade5ec6',
+            VERSION:'0+untagged.9.ge2b63d2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

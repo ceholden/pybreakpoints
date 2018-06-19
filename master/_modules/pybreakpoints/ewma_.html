@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pybreakpoints.ewma_ &mdash; plants 0+untagged.8.gade5ec6 documentation</title>
+  <title>pybreakpoints.ewma_ &mdash; plants 0+untagged.9.ge2b63d2 documentation</title>
   
 
   
@@ -170,7 +170,9 @@
 <span class="k">def</span> <span class="nf">_rolling_window</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">window</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Return a rolling window using NumPy strides</span>
 
-<span class="sd">    Credit: http://www.rigtorp.se/2011/01/01/rolling-statistics-numpy.html</span>
+<span class="sd">    Reference</span>
+<span class="sd">    ---------</span>
+<span class="sd">    http://www.rigtorp.se/2011/01/01/rolling-statistics-numpy.html</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">shape</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">window</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">window</span><span class="p">)</span>
     <span class="n">strides</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">strides</span> <span class="o">+</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">strides</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],)</span>
@@ -184,8 +186,10 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">        y (np.ndarray): Data</span>
-<span class="sd">        k (int): Number of observations included in moving range</span>
+<span class="sd">    y : np.ndarray</span>
+<span class="sd">        Data</span>
+<span class="sd">    k : int</span>
+<span class="sd">        Number of observations included in moving range</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -223,15 +227,22 @@
 <span class="k">def</span> <span class="nf">_ewma_boundary</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">stddev</span><span class="p">,</span> <span class="n">crit</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">lambda_</span><span class="o">=</span><span class="mf">0.2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Calculate control chart boundaries for a given process</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        x (np.ndarray): Observations</span>
-<span class="sd">        stddev (float): Standard deviation of the observations</span>
-<span class="sd">        crit (float): Critical threshold for boundary, given as a scalar</span>
-<span class="sd">            multiplier of the standard deviation</span>
-<span class="sd">        lambda_ (float): &quot;Memory&quot; parameter, bound [0, 1]</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : np.ndarray</span>
+<span class="sd">        Observations</span>
+<span class="sd">    stddev : float</span>
+<span class="sd">        Standard deviation of the observations</span>
+<span class="sd">    crit : float</span>
+<span class="sd">        Critical threshold for boundary, given as a scalar multiplier</span>
+<span class="sd">        of the standard deviation</span>
+<span class="sd">    lambda_ : float</span>
+<span class="sd">        &quot;Memory&quot; parameter, bound [0, 1]</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        tuple(np.ndarray, np.ndarray): Upper and lower boundaries of process</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[np.ndarray, np.ndarray]</span>
+<span class="sd">        Upper and lower boundaries of process</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -293,27 +304,32 @@
 <div class="viewcode-block" id="ewma"><a class="viewcode-back" href="../../pybreakpoints/pybreakpoints.ewma_.html#pybreakpoints.ewma_.ewma">[docs]</a><span class="k">def</span> <span class="nf">ewma</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">lambda_</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">crit</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">std_type</span><span class="o">=</span><span class="s1">&#39;SD&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Exponentially Weighted Moving Average test</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        y (array like): Time series to test. Should be sorted chronologically</span>
-<span class="sd">        lambda_ (float): &quot;Memory&quot; parameter, bound [0, 1]</span>
-<span class="sd">        crit (float): Critical threshold for boundary, given as a scalar</span>
-<span class="sd">            multiplier of the standard deviation</span>
-<span class="sd">        center (bool): Center time series before calculating EWMA</span>
-<span class="sd">        std_type (str): Method for calculating process standard deviation.</span>
-<span class="sd">            Calculated using:</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : array like</span>
+<span class="sd">        Time series to test. Should be sorted chronologically</span>
+<span class="sd">    lambda_ : float</span>
+<span class="sd">        &quot;Memory&quot; parameter, bound [0, 1]</span>
+<span class="sd">    crit : float</span>
+<span class="sd">        Critical threshold for boundary, given as a scalar multiplier of the</span>
+<span class="sd">        standard deviation</span>
+<span class="sd">    center : bool</span>
+<span class="sd">        Center time series before calculating EWMA</span>
+<span class="sd">    std_type : {&#39;MR&#39;, &#39;SD&#39;, &#39;MAD&#39;}</span>
+<span class="sd">        Method for calculating process standard deviation. Calculated using:</span>
 
-<span class="sd">            * ``MR`` for an estimate based on the &quot;moving range&quot; of</span>
-<span class="sd">              the scaled mean</span>
-<span class="sd">            * ``SD`` for the sample standard deviation</span>
-<span class="sd">            * ``MAD`` for the Median Absolute Deviation estimate of</span>
-<span class="sd">              standard deviation</span>
+<span class="sd">        * ``MR`` for an estimate based on the &quot;moving range&quot; of</span>
+<span class="sd">          the scaled mean</span>
+<span class="sd">        * ``SD`` for the sample standard deviation</span>
+<span class="sd">        * ``MAD`` for the Median Absolute Deviation estimate of</span>
+<span class="sd">          standard deviation</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">        StructuralBreakResult: A named tuple include the the test name,</span>
-<span class="sd">        change point (index of ``y``), the test ``score``,</span>
-<span class="sd">        and a boolean testing if the EWMA score is significant at the</span>
-<span class="sd">        given ``crit``</span>
-
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    StructuralBreakResult</span>
+<span class="sd">        A named tuple include the the test name, change point (index of ``y``),</span>
+<span class="sd">        the test ``score``, and a boolean testing if the EWMA score is</span>
+<span class="sd">        significant at the given ``crit``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">PANDAS_LIKE</span><span class="p">)</span> <span class="k">else</span> <span class="n">y</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
 
@@ -373,7 +389,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0+untagged.8.gade5ec6',
+            VERSION:'0+untagged.9.ge2b63d2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',

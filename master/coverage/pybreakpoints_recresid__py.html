@@ -302,7 +302,7 @@
 <p id="t83" class="pln"><span class="str">    variables, the :math:`t` th recursive residual is the forecast prediction</span><span class="strut">&nbsp;</span></p>
 <p id="t84" class="pln"><span class="str">    error for :math:`y_t` using a regression fit on the first :math:`t - 1`</span><span class="strut">&nbsp;</span></p>
 <p id="t85" class="pln"><span class="str">    observations. Recursive residuals are scaled and standardized so they are</span><span class="strut">&nbsp;</span></p>
-<p id="t86" class="pln"><span class="str">    N(0, 1) distributed.</span><span class="strut">&nbsp;</span></p>
+<p id="t86" class="pln"><span class="str">    :math:`N(0, 1)` distributed.</span><span class="strut">&nbsp;</span></p>
 <p id="t87" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t88" class="pln"><span class="str">    Using notation from Brown, Durbin, and Evans (1975) and Judge, et al</span><span class="strut">&nbsp;</span></p>
 <p id="t89" class="pln"><span class="str">    (1985):</span><span class="strut">&nbsp;</span></p>
@@ -341,9 +341,9 @@
 <p id="t122" class="pln"><span class="str">            \\frac{S_{j-1}\\boldsymbol{x}_r\\boldsymbol{x}_r^{\prime}S_{j-1}}</span><span class="strut">&nbsp;</span></p>
 <p id="t123" class="pln"><span class="str">                  {1 + \\boldsymbol{x}_r^{\prime}S_{j-1}\\boldsymbol{x}_r}</span><span class="strut">&nbsp;</span></p>
 <p id="t124" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t125" class="pln"><span class="str">    See the recursive residuals implementation that this follows,</span><span class="strut">&nbsp;</span></p>
-<p id="t126" class="pln"><span class="str">    `recursive_olsresiduals`, within the `statsmodels.stats.diagnostic` module.</span><span class="strut">&nbsp;</span></p>
-<p id="t127" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t125" class="pln"><span class="str">    See Also</span><span class="strut">&nbsp;</span></p>
+<p id="t126" class="pln"><span class="str">    --------</span><span class="strut">&nbsp;</span></p>
+<p id="t127" class="pln"><span class="str">    statsmodels.stats.diagnostic.recursive_olsresiduals</span><span class="strut">&nbsp;</span></p>
 <p id="t128" class="pln"><span class="str">    """</span><span class="strut">&nbsp;</span></p>
 <p id="t129" class="stm run hide_run">    <span class="key">if</span> <span class="key">not</span> <span class="nam">span</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t130" class="stm run hide_run">        <span class="nam">span</span> <span class="op">=</span> <span class="nam">X</span><span class="op">.</span><span class="nam">shape</span><span class="op">[</span><span class="num">1</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
@@ -374,7 +374,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.1</a>,
-            created at 2018-06-19 12:33
+            created at 2018-06-19 12:47
         </p>
     </div>
 </div>
