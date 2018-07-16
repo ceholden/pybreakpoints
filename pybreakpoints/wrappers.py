@@ -8,7 +8,8 @@ from .baiperron import breakpoint
 def bp_wrapper(X, y, **kwargs):
     """ Bai & Perron breakpoint estimation
 
-    Runs Bai & Perron breakpoint estimation in a single ``np.array``
+    Runs Bai & Perron breakpoint estimation over a 1D ``np.array`` and return
+    an array of same shape with segment indices
 
     Parameters
     ----------
@@ -51,8 +52,7 @@ def _breakpoint_xarray(X, y, dim, **kwargs):
 
     >>> xarr = make_xarray()
     >>> # Run breakpoint with intercept
-    >>> X = np.ones_like(xarr.time).astype(np.float64)
-    >>> X = np.expand_dims(X, 1)
+    >>> X = np.ones_like(xarr.time).astype(np.float64).reshape(-1, 1)
     >>> xarr_out = _breakpoint_xarray(X, xarr, 'time')
     """
     out = xr.apply_ufunc(_bp_ufunc,
