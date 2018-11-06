@@ -122,7 +122,7 @@ def breakpoint(X, y, h=0.15, breaks=None):
 
 
 def _extract_breaks(RSS_tri, RSS_table, RSS_index, breaks, h):
-    index = RSS_index[:, 0].astype(np.int)
+    index = RSS_index[:, 0].astype(np.int32)
     break_RSS = RSS_table[index - h + 1, breaks - 1] + RSS_tri[index + 1, -1]
 
     bp = [int(index[np.nanargmin(break_RSS)])]
@@ -138,7 +138,7 @@ def _extract_breaks(RSS_tri, RSS_table, RSS_index, breaks, h):
 def _breaks_RSS(RSS_tri, n, bp):
     """ Calculate RSS for series given `bp` break locations
     """
-    points = np.concatenate(([-1], bp, [n - 1])).astype(np.int)
+    points = np.concatenate(([-1], bp, [n - 1])).astype(np.int32)
     return np.sum([
         RSS_tri[points[i] + 1, points[i + 1]] for i in range(len(points) - 1)
     ])
