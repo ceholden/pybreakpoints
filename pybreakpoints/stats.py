@@ -94,6 +94,7 @@ def rmse(resid):
 
 
 # INFORMATION CRITERION
+@jit(nopython=True, nogil=True)
 def AIC(loglik, k):
     """ Akaike Information Criterion
 
@@ -112,6 +113,7 @@ def AIC(loglik, k):
     return -2 * loglik + 2 * k
 
 
+@jit(nopython=True, nogil=True)
 def BIC(loglik, k, n):
     """ Bayesian Information Criterion
 
