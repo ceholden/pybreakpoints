@@ -1,7 +1,6 @@
 name: pybreakpoints
 channels:
     - conda-forge
-    - conda-forge/label/dev
 dependencies:
     - python
     - six
