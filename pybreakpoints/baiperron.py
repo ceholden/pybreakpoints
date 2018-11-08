@@ -38,6 +38,12 @@ def breakpoint(X, y, h=0.15, breaks=None):
         Bayesian Information Criterion (BIC) for each number of fitted
         breaks (lower is better)
 
+    Raises
+    ------
+    ValueError
+        Raised if ``h`` is not correctly specified (must be larger than
+        number of regressors and less than half the time series length)
+
     TODO
     ----
     * Dispatch / wrapper on X/y for pandas/xarray dtypes so we can
