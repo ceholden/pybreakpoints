@@ -5,16 +5,6 @@ import pandas as pd
 import pytest
 import xarray as xr
 
-try:
-    from rpy2 import robjects
-    from rpy2.robjects import pandas2ri
-    from rpy2.robjects.packages import importr
-    pandas2ri.activate()
-except ImportError:
-    has_rpy2 = False
-else:
-    has_rpy2 = True
-
 from pybreakpoints import cusum_
 
 
@@ -31,27 +21,8 @@ def test_data():
 
 
 @pytest.fixture('module')
-def rpy2_strucchange():
-    if has_rpy2:
-        try:
-            base = importr('base')
-            utils = importr('utils')
-            has_pkg = base.require('strucchange')[0]
-            if not has_pkg:
-                utils.install_packages(
-                    'strucchange',
-                    repos='http://cran.revolutionanalytics.com/'
-                )
-        except Exception as exc:
-            pytest.skip('Unable to install "strucchange"')
-        else:
-            return True
-    return False
-
-
-@pytest.fixture('module')
 def strucchange_cusum_OLS(rpy2_strucchange, test_data):
-    if has_rpy2 and rpy2_strucchange:
+    if rpy2_strucchange:
         try:
             rstr = """
             function(dat) {
