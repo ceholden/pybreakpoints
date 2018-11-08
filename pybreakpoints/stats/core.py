@@ -4,7 +4,7 @@ import math
 
 import numpy as np
 
-from .compat import HAS_JIT, jit
+from ..compat import HAS_JIT, jit
 
 
 @jit(nopython=True, nogil=True)
