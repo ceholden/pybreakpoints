@@ -8,6 +8,7 @@ from . core import (
     AIC,
     BIC
 )
+from .lstsq import lstsq_model
 
 
 __all__ = [
@@ -17,4 +18,5 @@ __all__ = [
     'rmse',
     'AIC',
     'BIC',
+    'lstsq_model'
 ]
