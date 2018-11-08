@@ -90,7 +90,7 @@ def rmse(resid):
     float
         Root mean squared error
     """
-    return ((resid ** 2).sum() / y.size) ** 0.5
+    return ((resid ** 2).sum() / resid.size) ** 0.5
 
 
 # INFORMATION CRITERION
