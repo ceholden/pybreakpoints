@@ -34,7 +34,7 @@ def _rolling_window(a, window):
     return np.lib.stride_tricks.as_strided(a, shape=shape, strides=strides)
 
 
-# np.ptp not supported by jit yet
+# np.ptp and axis kwds not supported by jit yet
 @jit(nopython=False, nogil=False)
 def _sd_moving_range(y, k=2):
     """ Moving range estimate of standard deviation
@@ -131,10 +131,10 @@ def _ewma(y, lambda_=0.2, crit=3.0, center=True, std_type='SD'):
         sd = _sd_sample(y)
     elif std_type == 'MAD':
         sd = mad(y)
-    elif isinstance(std_type, (int, float)):
-        sd = std_type
-    else:
+    elif std_type == 'MR':
         sd = _sd_moving_range(y, k=2)
+    else:  # better be a number!
+        sd = std_type
 
     # Guard 0 sd
     if sd == 0:
